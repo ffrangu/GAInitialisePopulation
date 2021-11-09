@@ -20,11 +20,11 @@ namespace GAInitialisePopulation
             {
                 var bin = bins[i];
 
-                Console.WriteLine("Bin: " + i + ", filled: " + bin.elementet.Sum(q=>q.value));
+                Console.WriteLine("Bin: " + i + ", mbushur: " + bin.elementet.Sum(q=>q.value));
 
                 for (int j = 0; j < bin.elementet.Count; j++)
                 {
-                    Console.WriteLine("Element value: {0}", bin.elementet[j].value);
+                    Console.WriteLine("Vlera elementit: {0}", bin.elementet[j].value);
                 }
 
             }
