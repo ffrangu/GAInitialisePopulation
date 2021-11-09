@@ -6,17 +6,69 @@ namespace GAInitialisePopulation
 {
     class Program
     {
+        static int filled = 0;
+        static List<Bin> bins = new List<Bin>();
+        static Bin bin = new Bin();
+
         static void Main(string[] args)
         {
-            var array = initialPopulation(100);
+            int[] initialArray = { 20, 10, 4, 3, 35, 1, 2, 8, 7, 4 };
 
-            for (int i = 0; i < array.Count; i++)
+            fillBins(initialArray);
+
+            for (int i = 0; i < bins.Count; i++)
             {
-                Console.WriteLine(i + " [{0}]", string.Join(", ", array[i]));
+                var bin = bins[i];
 
-                Console.WriteLine(Environment.NewLine);
+                Console.WriteLine("Bin: " + i + ", filled: " + bin.elementet.Sum(q=>q.value));
+
+                for (int j = 0; j < bin.elementet.Count; j++)
+                {
+                    Console.WriteLine("Element value: {0}", bin.elementet[j].value);
+                }
+
             }
+        }
 
+
+        public static void fillBins(int[] array)
+        {
+            for (int i = 0; i < 100; i++)
+            {
+                generateSolution(array);
+            }
+        }
+
+        public static void generateSolution(int[] array)
+        {
+            Random r = new Random();
+
+            array = array.OrderBy(x => r.Next()).ToArray();
+
+            for (int i = 0; i < array.Length; i++)
+            {
+                AddElement(i, array[i]);
+            }
+        }
+
+        public static void AddElement(int id, int value)
+        {
+            if (filled + value <= 50)
+            {
+                filled += value;
+                bin.elementet.Add(new Element { id = id, value = value });
+
+                if(!bins.Contains(bin))
+                {
+                    bins.Add(bin);
+                }
+            }
+            else
+            {
+                bin = new Bin();
+                filled = 0;
+                AddElement(id, value);
+            }
         }
 
         public static List<int[]> initialPopulation(int popSize)
@@ -36,6 +88,23 @@ namespace GAInitialisePopulation
             }
 
             return arrayList;
+        }
+
+        public class Element
+        {
+            public int id { get; set; }
+
+            public int value { get; set; }
+        }
+
+        public class Bin
+        {
+            public Bin()
+            {
+                elementet = new List<Element>();
+            }
+
+            public List<Element> elementet { get; set; }
         }
     }
 }
